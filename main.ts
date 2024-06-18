@@ -227,7 +227,6 @@ export function getType(
     case "citext":
     case "money":
     case "numeric":
-    case "int8":
     case "char":
     case "character":
     case "bpchar":
@@ -251,6 +250,8 @@ export function getType(
     case "float4":
     case "float8":
       return "number";
+    case "int8":
+      return "bigint";
     case "date":
     case "timestamp":
     case "timestamptz":
