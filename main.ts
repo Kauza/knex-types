@@ -286,6 +286,9 @@ export async function updateTypes(db: Knex, options: Options): Promise<void> {
         const brandName = `${schemaName}${tableName}`;
         type += ` & { __brand: "${brandName}" }`;
       } else if (x.is_foreign_key && x.column.endsWith("id")) {
+        if (x.nullable) {
+          type = `(${type})`;
+        }
         const refSchemaName =
           x.ref_schema?.schema !== "public"
             ? upperFirst(camelCase(x.ref_schema?.schema))

@@ -85,6 +85,8 @@ beforeAll(async function setup() {
     table.text("notes");
     table.timestamp("timestamp").notNullable();
     table.integer("user_id").references("id").inTable("user").notNullable();
+
+    table.integer("user_nullable_id").references("id").inTable("user");
   });
 
   await db.schema.withSchema("secret").createTable("secret", (table) => {
@@ -141,6 +143,7 @@ test("updateTypes", async function () {
       notes: string | null;
       timestamp: Date;
       user_id: number & { __brand: "User" };
+      user_nullable_id: (number | null) & { __brand: "User" };
     };
 
     export type User = {
