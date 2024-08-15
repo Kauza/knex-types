@@ -152,7 +152,7 @@ export async function updateTypes(db: Knex, options: Options): Promise<void> {
         .withSchema("information_schema")
         .table("table_constraints")
         .where("table_schema", schema)
-        .whereIn("constraint_type", ["FOREIGN KEY", "UNIQUE"])
+        .whereIn("constraint_type", ["FOREIGN KEY", "UNIQUE", "PRIMARY KEY"])
         .select<{ constraint_name: string; constraint_type: string }[]>([
           "constraint_name",
           "constraint_type",
@@ -221,6 +221,12 @@ export async function updateTypes(db: Knex, options: Options): Promise<void> {
             key.column === column.column &&
             key.constraint_type === "UNIQUE"
         ),
+        is_primary_key: keys.some(
+          (key) =>
+            key.table === column.table &&
+            key.column === column.column &&
+            key.constraint_type === "PRIMARY KEY"
+        ),
         ref_schema: keys.find(
           (key) =>
             key.table === column.table &&
@@ -276,7 +282,7 @@ export async function updateTypes(db: Knex, options: Options): Promise<void> {
       }
 
       // branding the id columns (unique and foreign keys)
-      if (x.column === "id" && x.is_unique) {
+      if (x.column === "id" && (x.is_unique || x.is_primary_key)) {
         const brandName = `${schemaName}${tableName}`;
         type += ` & { __brand: "${brandName}" }`;
       } else if (x.is_foreign_key && x.column.endsWith("id")) {

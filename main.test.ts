@@ -81,7 +81,7 @@ beforeAll(async function setup() {
   });
 
   await db.schema.withSchema("log").createTable("messages", (table) => {
-    table.increments("int").notNullable().primary();
+    table.increments("id").notNullable().primary();
     table.text("notes");
     table.timestamp("timestamp").notNullable();
     table.integer("user_id").references("id").inTable("user").notNullable();
@@ -137,7 +137,7 @@ test("updateTypes", async function () {
     };
 
     export type LogMessages = {
-      int: number;
+      id: number & { __brand: "LogMessages" };
       notes: string | null;
       timestamp: Date;
       user_id: number & { __brand: "User" };
