@@ -26,6 +26,7 @@ beforeAll(async function setup() {
 
   await db.schema.createTable("user", (table) => {
     table.increments("int").notNullable().primary();
+    table.integer("id").notNullable().unique();
     table.specificType("provider", "identity_provider").notNullable();
     table.specificType("provider_null", "identity_provider");
     table.specificType("provider_array", "identity_provider[]").notNullable();
@@ -80,9 +81,12 @@ beforeAll(async function setup() {
   });
 
   await db.schema.withSchema("log").createTable("messages", (table) => {
-    table.increments("int").notNullable().primary();
+    table.increments("id").notNullable().primary();
     table.text("notes");
     table.timestamp("timestamp").notNullable();
+    table.integer("user_id").references("id").inTable("user").notNullable();
+
+    table.integer("user_nullable_id").references("id").inTable("user");
   });
 
   await db.schema.withSchema("secret").createTable("secret", (table) => {
@@ -135,13 +139,16 @@ test("updateTypes", async function () {
     };
 
     export type LogMessages = {
-      int: number;
+      id: number & { __brand: "LogMessages" };
       notes: string | null;
       timestamp: Date;
+      user_id: number & { __brand: "User" };
+      user_nullable_id: (number | null) & { __brand: "User" };
     };
 
     export type User = {
       int: number;
+      id: number & { __brand: "User" };
       provider: IdentityProvider;
       provider_null: IdentityProvider | null;
       provider_array: IdentityProvider[];
