@@ -161,11 +161,11 @@ test("updateTypes", async function () {
       float: number;
       float_array: number[];
       money: string;
-      bigint: bigint;
+      bigint: string;
       smallint: number;
       int2: number;
       int4: number;
-      int8: bigint;
+      int8: string;
       binary: Buffer;
       binary_null: Buffer | null;
       binary_array: Buffer[];
