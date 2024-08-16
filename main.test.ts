@@ -143,7 +143,7 @@ test("updateTypes", async function () {
       notes: string | null;
       timestamp: Date;
       user_id: number & { _brand: "User" };
-      user_nullable_id: (number | null) & { _brand: "User" };
+      user_nullable_id: number & { _brand: "User" } | null;
     };
 
     export type User = {
