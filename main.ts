@@ -277,18 +277,11 @@ export async function updateTypes(db: Knex, options: Options): Promise<void> {
           ? `${getType(x.udt.substring(1), enumsMap, x.default)}[]`
           : getType(x.udt, enumsMap, x.default);
 
-      if (x.nullable) {
-        type += " | null";
-      }
-
       // branding the id columns (unique and foreign keys)
       if (x.column === "id" && (x.is_unique || x.is_primary_key)) {
         const brandName = `${schemaName}${tableName}`;
         type += ` & { _brand: "${brandName}" }`;
       } else if (x.is_foreign_key && x.column.endsWith("id")) {
-        if (x.nullable) {
-          type = `(${type})`;
-        }
         const refSchemaName =
           x.ref_schema?.schema !== "public"
             ? upperFirst(camelCase(x.ref_schema?.schema))
@@ -296,6 +289,10 @@ export async function updateTypes(db: Knex, options: Options): Promise<void> {
         const refTableName = upperFirst(camelCase(x.ref_schema?.table));
         const brandName = `${refSchemaName}${refTableName}`;
         type += ` & { _brand: "${brandName}" }`;
+      }
+
+      if (x.nullable) {
+        type += " | null";
       }
 
       output.write(`  ${sanitize(x.column)}: ${type};\n`);
