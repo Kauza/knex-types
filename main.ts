@@ -284,7 +284,7 @@ export async function updateTypes(db: Knex, options: Options): Promise<void> {
       // branding the id columns (unique and foreign keys)
       if (x.column === "id" && (x.is_unique || x.is_primary_key)) {
         const brandName = `${schemaName}${tableName}`;
-        type += ` & { __brand: "${brandName}" }`;
+        type += ` & { _brand: "${brandName}" }`;
       } else if (x.is_foreign_key && x.column.endsWith("id")) {
         if (x.nullable) {
           type = `(${type})`;
@@ -295,7 +295,7 @@ export async function updateTypes(db: Knex, options: Options): Promise<void> {
             : "";
         const refTableName = upperFirst(camelCase(x.ref_schema?.table));
         const brandName = `${refSchemaName}${refTableName}`;
-        type += ` & { __brand: "${brandName}" }`;
+        type += ` & { _brand: "${brandName}" }`;
       }
 
       output.write(`  ${sanitize(x.column)}: ${type};\n`);

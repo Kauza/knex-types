@@ -139,16 +139,16 @@ test("updateTypes", async function () {
     };
 
     export type LogMessages = {
-      id: number & { __brand: "LogMessages" };
+      id: number & { _brand: "LogMessages" };
       notes: string | null;
       timestamp: Date;
-      user_id: number & { __brand: "User" };
-      user_nullable_id: (number | null) & { __brand: "User" };
+      user_id: number & { _brand: "User" };
+      user_nullable_id: (number | null) & { _brand: "User" };
     };
 
     export type User = {
       int: number;
-      id: number & { __brand: "User" };
+      id: number & { _brand: "User" };
       provider: IdentityProvider;
       provider_null: IdentityProvider | null;
       provider_array: IdentityProvider[];
