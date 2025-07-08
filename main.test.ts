@@ -142,8 +142,8 @@ test("updateTypes", async function () {
       id: number & { _brand: "LogMessages" };
       notes: string | null;
       timestamp: Date;
-      user_id: number & { _brand: "User" };
-      user_nullable_id: number & { _brand: "User" } | null;
+      user_id: number & { __flavor?: "UserId" };
+      user_nullable_id: number & { __flavor?: "UserId" } | null;
     };
 
     export type User = {

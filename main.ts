@@ -287,8 +287,8 @@ export async function updateTypes(db: Knex, options: Options): Promise<void> {
             ? upperFirst(camelCase(x.ref_schema?.schema))
             : "";
         const refTableName = upperFirst(camelCase(x.ref_schema?.table));
-        const brandName = `${refSchemaName}${refTableName}`;
-        type += ` & { _brand: "${brandName}" }`;
+        const brandName = `${refTableName}Id`;
+        type += ` & { __flavor?: "${brandName}" }`;
       }
 
       if (x.nullable) {
