@@ -30,14 +30,12 @@ updateTypes(db, { output: "./types.ts" }).catch((err) => {
 
 Find an example of generated types in [`./main.test.ts`](./main.test.ts).
 
-## Related Projects
-
-- [GraphQL API Starter Kit](https://github.com/kriasoft/graphql-starter) — monorepo template, pre-configured with TypeScript, GraphQL.js, React, and Relay
-- [Node.js API Starter Kit](https://github.com/kriasoft/node-starter-kit) — Node.js project template (PostgreSQL, Knex, OAuth 2.0, emails, Cloud Functions)
-
-## How to Contribute
-
-Please create a [PR](https://docs.github.com/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request) or send me a message on [Discord](https://discord.gg/bSsv7XM).
+## Publishing
+```
+npm login # you need access to our kauza npm account
+npm version <major|minor|patch>
+npm publish
+```
 
 ## License
 
